@@ -23,13 +23,6 @@
     "LICENSE",
     ".env.example"
   ],
-  "scripts": {
-    "start": "node bin/cli.js serve",
-    "serve": "node bin/cli.js serve",
-    "setup": "node bin/cli.js setup",
-    "status": "node bin/cli.js status",
-    "init": "node bin/cli.js init"
-  },
   "devDependencies": {
     "@antithesishq/bombadil": "^0.3.2"
   },
