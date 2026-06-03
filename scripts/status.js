@@ -15,8 +15,8 @@ const CHECK = '\x1b[32m✓\x1b[0m';
 const CROSS = '\x1b[31m✗\x1b[0m';
 
 module.exports = function status(ROOT) {
-  // Read port from .env if available, fall back to 7000
-  let port = 7000;
+  // Read port from .env if available, fall back to platform default
+  let port = process.platform === 'darwin' ? 7860 : 7000;
   try {
     const envPath = path.join(ROOT, '.env');
     if (fs.existsSync(envPath)) {

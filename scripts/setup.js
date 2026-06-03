@@ -150,7 +150,7 @@ function checkPrerequisites(ROOT) {
 
 // ── subprocess wrappers ───────────────────────────────
 function runPython(ROOT, cmd, args = []) {
-  const py = 'python';
+  const py = getVenvPython(ROOT);
   const script = path.join(ROOT, 'scripts', 'odysseus.py');
   const result = spawnSync(py, [script, cmd, ...args], {
     encoding: 'utf8',
@@ -335,11 +335,12 @@ async function quickSetup(ROOT) {
 async function guidedSetup(ROOT) {
   console.log(`\n  ${BOLD}Guided Setup${RESET}\n`);
 
-  const port = await question('Port', '7000');
+  const port = await question('Port', process.platform === 'darwin' ? '7860' : '7000');
   const admin = await question('Admin username', 'admin');
   const passGen = (await question('Auto-generate admin password?', 'Y')).toLowerCase();
 
   // set env for setup script
+  process.env.ODYSSEUS_PORT = port;
   if (admin !== 'admin') process.env.ODYSSEUS_ADMIN_USER = admin;
   if (passGen === 'n') {
     const pw = await question('Enter admin password (min 8 chars)');

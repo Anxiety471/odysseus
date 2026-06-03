@@ -118,7 +118,7 @@ def cmd_setup(args: argparse.Namespace) -> int:
 # ── subcommand: serve ──────────────────────────────────
 def cmd_serve(args: argparse.Namespace) -> int:
     """Detect LAN IPs, detect Tailscale, start uvicorn."""
-    port = args.port or default_port()
+    port = args.port or int(os.environ.get("ODYSSEUS_PORT", 0)) or default_port()
 
     # detect LAN IPs
     lan_ips = []
@@ -196,7 +196,7 @@ def cmd_serve(args: argparse.Namespace) -> int:
 # ── subcommand: status ─────────────────────────────────
 def cmd_status(args: argparse.Namespace) -> int:
     """Health check."""
-    port = args.port or default_port()
+    port = args.port or int(os.environ.get("ODYSSEUS_PORT", 0)) or default_port()
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     result = sock.connect_ex(('127.0.0.1', port))
     sock.close()
