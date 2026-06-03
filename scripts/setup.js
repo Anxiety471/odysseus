@@ -198,6 +198,13 @@ function getVenvPython(ROOT) {
       ? path.join(venv, 'Scripts', 'python.exe')
       : path.join(venv, 'bin', 'python');
   }
+  // Fallback: try python, python3, then py (Windows launcher)
+  for (const cmd of ['python', 'python3', 'py']) {
+    try {
+      spawnSync(cmd, ['--version'], { encoding: 'utf8', timeout: 5000 });
+      return cmd;
+    } catch {}
+  }
   return 'python';
 }
 
